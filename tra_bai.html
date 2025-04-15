@@ -57,12 +57,13 @@
 
       let detections = [];
 
-      // Load models
+      // Load face-api model từ github chính chủ
+      const MODEL_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
+
       Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/face-api.js/models'),
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
       ]).then(startVideo);
 
-      // Start camera
       async function startVideo() {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
@@ -73,7 +74,6 @@
         }
       }
 
-      // Detect faces
       video.addEventListener('play', () => {
         const displaySize = { width: video.width, height: video.height };
         faceapi.matchDimensions(canvas, displaySize);
@@ -96,7 +96,6 @@
         }, 500);
       });
 
-      // Pick random person
       pickBtn.addEventListener('click', () => {
         if (detections.length === 0) {
           resultText.textContent = '⚠️ Không có ai để gọi hết 😅';
